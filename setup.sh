@@ -14,18 +14,18 @@ install_dependencies() {
 }
 
 configure_termux() {
-	echo -e "${green}Configuring termux ...${nocol}"
-	# Remove already existing .termux folder
-	rm -rf "${HOME}/.termux"
-	cp -r Termux "${HOME}/.termux"
-	chmod +x "${HOME}/.termux/fonts.sh" "${HOME}/.termux/colors.sh"
-	echo -e "${green}Setting IrBlack as default color scheme ...${nocol}"
-	ln -fs "${HOME}/.termux/colors/dark/IrBlack" "${HOME}/.termux/colors.properties"
-	# Replacing termuxs boring welcome message with something good looking
-	mv "${PREFIX}/etc/motd" "${PREFIX}/etc/motd.bak"
-	mv "${PREFIX}/etc/motd.sh" "${PREFIX}/etc/motd.sh.bak"
-	mv "${HOME}/.termux/motd.sh" "${PREFIX}/etc/motd.sh"
-	ln -sf "${PREFIX}/etc/motd.sh" "${HOME}/.termux/motd.sh"
+  echo -e "${green}Configuring termux ...${nocol}"
+  # Remove already existing .termux folder
+  rm -rf "${HOME}"/.termux
+  cp -r Termux "${HOME}"/.termux
+  chmod +x "${HOME}"/.termux/fonts.sh "${HOME}"/.termux/colors.sh
+  echo -e "${green}Setting IrBlack as default color scheme ...${nocol}"
+  ln -fs "${HOME}"/.termux/colors/dark/IrBlack "${HOME}"/.termux/colors.properties
+  # Replacing termux's boring welcome message with something good looking
+  mv "${PREFIX}"/etc/motd "${PREFIX}"/etc/motd.bak
+  mv "${PREFIX}"/etc/motd.sh "${PREFIX}"/etc/motd.sh.bak
+  mv "${HOME}"/.termux/motd.sh "${PREFIX}"/etc/motd.sh
+  ln -sf "${PREFIX}"/etc/motd.sh "${HOME}"/.termux/motd.sh
 }
 
 install_ohmyzsh() {
@@ -59,21 +59,22 @@ install_ohmyzsh() {
 }
 
 finish_install() {
-	# Create config directory if it doesn't exist
-	mkdir -p "${HOME}/.config"
-	# Configure lf file manager
-	cp -fr lf "${HOME}/.config/lf"
-	# Remove gitstatusd from cache if arm
-	if [[ "$(dpkg --print-architecture)" == "arm" ]]; then
-		rm -rf "${HOME}/.cache/gitstatus"
-	fi
-	echo -e "${green}Setting zsh as default shell ...${nocol}"
-	chsh -s zsh
-	# Setup Complete
-	termux-setup-storage
-	termux-reload-settings
-	echo -e "${green}Setup Completed!${nocol}"
-	echo -e "${green}Please restart Termux!${nocol}"
+  # Create config directory if it doesn't exist
+  mkdir -p "${HOME}/.config"
+  # Configure lf file manager
+  mkdir -p "${HOME}"/.config/lf
+  cp -fr lf/* "${HOME}"/.config/lf
+  # Remove gitstatusd from cache if arm
+  if [[ "$(dpkg --print-architecture)" == "arm" ]]; then
+      rm -rf "${HOME}/.cache/gitstatus"
+  fi
+  echo -e "${green}Setting zsh as default shell ...${nocol}"
+  chsh -s zsh
+  # Setup Complete
+  termux-setup-storage
+  termux-reload-settings
+  echo -e "${green}Setup Completed!${nocol}"
+  echo -e "${green}Please restart Termux!${nocol}"
 }
 
 # Start installation
